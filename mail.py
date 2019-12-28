@@ -3,7 +3,7 @@ import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from conf_env import Config
-from models import FilterAuthentications
+from models import FilterAuthentications, Yesterday
 
 
 class MailContent:
@@ -13,8 +13,8 @@ class MailContent:
 
     def get_text(self):
         return """Date:{}\nattempts:{}\nsuccess:{}\nfailures:{}\nusernames:{}
-        """.format("2019", self.log_statistics.attempts, self.log_statistics.attempts, self.log_statistics.attempts,
-                   self.log_statistics.usernames)
+        """.format(Yesterday.get_yesterdays_date(), self.log_statistics.attempts, self.log_statistics.success,
+                   self.log_statistics.failures, self.log_statistics.usernames)
 
     def get_html(self):
         return """\
@@ -27,8 +27,8 @@ class MailContent:
                     <p>usernames:{}</p>
                 </body>
             </html>
-        """.format("2019", self.log_statistics.attempts, self.log_statistics.attempts, self.log_statistics.attempts,
-                   self.log_statistics.usernames)
+        """.format(Yesterday.get_yesterdays_date(), self.log_statistics.attempts, self.log_statistics.success,
+                   self.log_statistics.failures, self.log_statistics.usernames)
 
 
 class Mail:
