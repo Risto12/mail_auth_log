@@ -14,5 +14,17 @@ class SendLogReport:
         ready_mail.send_mail()
 
 
+class CheckLogs:
+
+    @staticmethod
+    def is_not_empty():
+        db = DBTransactionHandler(Config.DB)
+        log_report = FilterAuthentications(db)
+        return log_report.usernames.__len__() != 0
+
+
 if __name__ == '__main__':
-    SendLogReport.send_mail()
+
+    if CheckLogs.is_not_empty():
+        SendLogReport.send_mail()
+
